@@ -123,7 +123,7 @@ Route::middleware('auth')->group(function () {
     Route::get('payments/{payment}/receipt/pdf', [PaymentController::class, 'receiptPdf'])->name('payments.receipt.pdf');
 
     // Announcements
-    Route::resource('announcements', AnnouncementController::class);
+    Route::resource('announcements', AnnouncementController::class)->except(['show']);
 
     // Reports
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
@@ -141,7 +141,7 @@ Route::middleware('auth')->group(function () {
 
     // Admin: users
     Route::middleware('permission:manage-users')->group(function () {
-        Route::resource('users', UserController::class);
+        Route::resource('users', UserController::class)->except(['show']);
     });
 
     // Audit logs
