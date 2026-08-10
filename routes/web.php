@@ -82,19 +82,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
 
     // Attendance
-    Route::get('attendance/take', [AttendanceController::class, 'create'])->name('attendance.create');
-    Route::post('attendance/take', [AttendanceController::class, 'store'])->name('attendance.store');
-    Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::middleware('permission:take-attendance')->group(function () {
+        Route::get('attendance/take', [AttendanceController::class, 'create'])->name('attendance.create');
+        Route::post('attendance/take', [AttendanceController::class, 'store'])->name('attendance.store');
+    });
+    Route::middleware('permission:view-attendance')->group(function () {
+        Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    });
 
     // Assessment / Results
     Route::middleware('permission:manage-assessment-config')->group(function () {
         Route::resource('assessment-types', AssessmentTypeController::class)->except(['show']);
     });
-    Route::get('scores', [ScoreEntryController::class, 'create'])->name('scores.create');
-    Route::post('scores', [ScoreEntryController::class, 'store'])->name('scores.store');
+    Route::middleware('permission:enter-scores')->group(function () {
+        Route::get('scores', [ScoreEntryController::class, 'create'])->name('scores.create');
+        Route::post('scores', [ScoreEntryController::class, 'store'])->name('scores.store');
+    });
 
-    Route::get('results', [ResultController::class, 'index'])->name('results.index');
-    Route::get('results/published', [ResultController::class, 'published'])->name('results.published');
+    Route::middleware('permission:view-results')->group(function () {
+        Route::get('results', [ResultController::class, 'index'])->name('results.index');
+        Route::get('results/published', [ResultController::class, 'published'])->name('results.published');
+    });
     Route::post('results/{result}/submit', [ResultController::class, 'submit'])->name('results.submit');
     Route::post('results/submit-batch', [ResultController::class, 'submitBatch'])->name('results.submit-batch');
     Route::post('results/{result}/review', [ResultController::class, 'review'])->name('results.review');

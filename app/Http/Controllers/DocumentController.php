@@ -39,7 +39,9 @@ class DocumentController extends Controller
 
         abort_unless(Storage::disk('local')->exists($document->file_path), 404);
 
-        return Storage::disk('local')->download($document->file_path, $document->original_filename ?? $document->title);
+        $downloadName = str_replace(['/', '\\'], '-', $document->original_filename ?? $document->title);
+
+        return Storage::disk('local')->download($document->file_path, $downloadName);
     }
 
     public function destroy(Document $document)

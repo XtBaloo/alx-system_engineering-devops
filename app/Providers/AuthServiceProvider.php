@@ -38,8 +38,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function (User $user, string $ability) {
             return $user->isSuperAdmin() ? true : null;
         });
-
-        Gate::define('manage-settings', fn (User $user) => $user->can('manage-settings'));
-        Gate::define('view-audit-logs', fn (User $user) => $user->can('view-audit-logs'));
     }
 }

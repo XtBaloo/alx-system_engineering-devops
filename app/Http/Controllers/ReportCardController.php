@@ -39,7 +39,9 @@ class ReportCardController extends Controller
 
         $pdf = Pdf::loadView('report-cards.pdf', $data)->setPaper('a4', 'portrait');
 
-        return $pdf->download("Report-Card-{$student->admission_number}.pdf");
+        $safeAdmissionNumber = str_replace(['/', '\\'], '-', $student->admission_number);
+
+        return $pdf->download("Report-Card-{$safeAdmissionNumber}.pdf");
     }
 
     protected function buildReportCardData(Student $student): array

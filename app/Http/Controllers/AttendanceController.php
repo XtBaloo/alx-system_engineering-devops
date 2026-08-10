@@ -67,16 +67,17 @@ class AttendanceController extends Controller
 
         DB::transaction(function () use ($data, $classArm, $session, $term) {
             foreach ($data['statuses'] as $studentId => $status) {
-                Attendance::updateOrCreate(
-                    ['student_id' => $studentId, 'date' => $data['date']],
-                    [
-                        'class_arm_id' => $classArm->id,
-                        'academic_session_id' => $session->id,
-                        'term_id' => $term->id,
-                        'status' => $status,
-                        'recorded_by' => auth()->id(),
-                    ]
-                );
+                $attendance = Attendance::where('student_id', $studentId)
+                    ->whereDate('date', $data['date'])
+                    ->first() ?? new Attendance(['student_id' => $studentId, 'date' => $data['date']]);
+
+                $attendance->fill([
+                    'class_arm_id' => $classArm->id,
+                    'academic_session_id' => $session->id,
+                    'term_id' => $term->id,
+                    'status' => $status,
+                    'recorded_by' => auth()->id(),
+                ])->save();
             }
         });
 

@@ -45,10 +45,10 @@ class ReportController extends Controller
             ->when($request->to, fn ($q, $d) => $q->whereDate('date', '<=', $d))
             ->join('students', 'students.id', '=', 'attendance.student_id')
             ->selectRaw('attendance.student_id, students.first_name, students.last_name, students.admission_number,
-                SUM(CASE WHEN status = "present" THEN 1 ELSE 0 END) as present,
-                SUM(CASE WHEN status = "absent" THEN 1 ELSE 0 END) as absent,
-                SUM(CASE WHEN status = "late" THEN 1 ELSE 0 END) as late,
-                SUM(CASE WHEN status = "excused" THEN 1 ELSE 0 END) as excused,
+                SUM(CASE WHEN attendance.status = "present" THEN 1 ELSE 0 END) as present,
+                SUM(CASE WHEN attendance.status = "absent" THEN 1 ELSE 0 END) as absent,
+                SUM(CASE WHEN attendance.status = "late" THEN 1 ELSE 0 END) as late,
+                SUM(CASE WHEN attendance.status = "excused" THEN 1 ELSE 0 END) as excused,
                 COUNT(*) as total')
             ->groupBy('attendance.student_id', 'students.first_name', 'students.last_name', 'students.admission_number')
             ->orderBy('students.first_name')
