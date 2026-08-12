@@ -5,7 +5,7 @@
         @if($settings->logo_path)
             <img src="{{ Storage::disk('public')->url($settings->logo_path) }}" alt="Logo" class="h-10 w-10 rounded-full object-cover bg-white">
         @else
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-700 font-bold">PFA</div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-700 font-bold">{{ collect(explode(' ', $settings->school_name))->map(fn ($word) => mb_substr($word, 0, 1))->take(3)->implode('') }}</div>
         @endif
         <div>
             <div class="text-sm font-bold leading-tight">{{ $settings->school_name }}</div>
@@ -108,6 +108,7 @@
     </nav>
 
     <div class="border-t border-emerald-900 px-4 py-3 text-[11px] text-emerald-400">
-        &copy; {{ date('Y') }} {{ $settings->school_name }}
+        <div>&copy; {{ date('Y') }} {{ $settings->school_name }}</div>
+        <div class="mt-0.5 text-emerald-600">Powered by SchoolHub</div>
     </div>
 </div>
