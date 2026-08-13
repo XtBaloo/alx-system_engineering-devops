@@ -86,7 +86,7 @@ class NotificationsTest extends TestCase
             'student_id' => $student->id, 'subject_id' => $subject->id, 'class_arm_id' => $classArm->id,
             'academic_session_id' => $session->id, 'term_id' => $term->id,
             'assessment_total' => 30, 'examination_score' => 50, 'total_score' => 80,
-            'grade' => 'A', 'status' => 'draft',
+            'grade' => 'A', 'status' => 'approved',
         ]);
 
         $this->actingAs($this->admin())->post("/results/{$result->id}/publish")->assertRedirect();

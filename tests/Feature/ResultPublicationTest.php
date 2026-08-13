@@ -95,10 +95,96 @@ class ResultPublicationTest extends TestCase
         $admin = User::factory()->create();
         $admin->assignRole('administrator');
 
-        // Directly hitting approve while still "submitted" (not yet reviewed) should be rejected by the policy?
-        // Our workflow allows admins to approve once reviewed; verify state machine via UI-level guard.
+        // Directly hitting approve while still "submitted" (not yet reviewed) must be rejected.
+        $response = $this->actingAs($admin)->post("/results/{$result->id}/approve");
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+        $this->assertEquals('submitted', $result->fresh()->status);
+
         $this->actingAs($admin)->post("/results/{$result->id}/review")->assertRedirect();
         $this->assertEquals('reviewed', $result->fresh()->status);
+
+        $this->actingAs($admin)->post("/results/{$result->id}/approve")->assertRedirect();
+        $this->assertEquals('approved', $result->fresh()->status);
+    }
+
+    public function test_a_result_must_be_approved_before_it_can_be_published(): void
+    {
+        ['result' => $result] = $this->makeResult();
+        $result->update(['status' => 'reviewed']);
+
+        $admin = User::factory()->create();
+        $admin->assignRole('administrator');
+
+        $response = $this->actingAs($admin)->post("/results/{$result->id}/publish");
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+        $this->assertEquals('reviewed', $result->fresh()->status);
+    }
+
+    public function test_a_non_draft_result_cannot_be_resubmitted(): void
+    {
+        ['result' => $result, 'teacherUser' => $teacherUser] = $this->makeResult();
+        $result->update(['status' => 'approved']);
+
+        $response = $this->actingAs($teacherUser)->post("/results/{$result->id}/submit");
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+        $this->assertEquals('approved', $result->fresh()->status);
+    }
+
+    public function test_an_already_published_result_cannot_be_published_again(): void
+    {
+        ['result' => $result] = $this->makeResult();
+        $result->update(['status' => 'published', 'published_at' => now()]);
+
+        $admin = User::factory()->create();
+        $admin->assignRole('administrator');
+
+        $response = $this->actingAs($admin)->post("/results/{$result->id}/publish");
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+    }
+
+    public function test_batch_submit_only_advances_results_that_are_currently_in_draft_status(): void
+    {
+        $session = AcademicSession::factory()->create();
+        $term = Term::factory()->create(['academic_session_id' => $session->id]);
+        $classArm = ClassArm::factory()->create();
+        $subject = Subject::factory()->create();
+
+        $teacherUser = User::factory()->create();
+        $teacherUser->assignRole('teacher');
+        $teacher = Teacher::factory()->create(['user_id' => $teacherUser->id]);
+        TeacherAssignment::create([
+            'teacher_id' => $teacher->id, 'class_arm_id' => $classArm->id,
+            'subject_id' => $subject->id, 'academic_session_id' => $session->id,
+        ]);
+
+        $draftStudent = Student::factory()->create(['current_class_arm_id' => $classArm->id]);
+        $alreadySubmittedStudent = Student::factory()->create(['current_class_arm_id' => $classArm->id]);
+
+        $draftResult = Result::create([
+            'student_id' => $draftStudent->id, 'subject_id' => $subject->id, 'class_arm_id' => $classArm->id,
+            'academic_session_id' => $session->id, 'term_id' => $term->id,
+            'assessment_total' => 30, 'examination_score' => 50, 'total_score' => 80,
+            'grade' => 'A', 'status' => 'draft',
+        ]);
+        $alreadySubmittedResult = Result::create([
+            'student_id' => $alreadySubmittedStudent->id, 'subject_id' => $subject->id, 'class_arm_id' => $classArm->id,
+            'academic_session_id' => $session->id, 'term_id' => $term->id,
+            'assessment_total' => 20, 'examination_score' => 40, 'total_score' => 60,
+            'grade' => 'C', 'status' => 'submitted', 'submitted_at' => now()->subDay(),
+        ]);
+
+        $response = $this->actingAs($teacherUser)->post('/results/submit-batch', [
+            'result_ids' => [$draftResult->id, $alreadySubmittedResult->id],
+        ]);
+
+        $response->assertRedirect();
+        $this->assertEquals('submitted', $draftResult->fresh()->status);
+        // Already-submitted result is left untouched (its submitted_at must not be bumped by a re-submit).
+        $this->assertTrue($alreadySubmittedResult->fresh()->submitted_at->equalTo($alreadySubmittedResult->submitted_at));
     }
 
     public function test_unpublished_results_are_not_visible_to_students(): void

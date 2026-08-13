@@ -17,20 +17,7 @@ class ResultService
      */
     public function recalculateResult(int $studentId, int $subjectId, int $classArmId, int $academicSessionId, int $termId): Result
     {
-        $assessmentTotal = AssessmentScore::where([
-            'student_id' => $studentId,
-            'subject_id' => $subjectId,
-            'term_id' => $termId,
-        ])->sum('score');
-
-        $examinationScore = ExaminationScore::where([
-            'student_id' => $studentId,
-            'subject_id' => $subjectId,
-            'term_id' => $termId,
-        ])->value('score') ?? 0;
-
-        $total = round((float) $assessmentTotal + (float) $examinationScore, 2);
-        $gradeRow = GradingScale::forScore($total);
+        $scoreFilter = ['student_id' => $studentId, 'subject_id' => $subjectId, 'term_id' => $termId];
 
         $result = Result::firstOrNew([
             'student_id' => $studentId,
@@ -42,6 +29,21 @@ class ResultService
         if ($result->exists && $result->status === 'published') {
             return $result;
         }
+
+        $hasAssessmentScores = AssessmentScore::where($scoreFilter)->exists();
+        $hasExaminationScore = ExaminationScore::where($scoreFilter)->exists();
+
+        // Nothing recorded yet for this student/subject/term: don't create a
+        // placeholder result with a misleading grade before any score exists.
+        if (! $result->exists && ! $hasAssessmentScores && ! $hasExaminationScore) {
+            return $result;
+        }
+
+        $assessmentTotal = AssessmentScore::where($scoreFilter)->sum('score');
+        $examinationScore = ExaminationScore::where($scoreFilter)->value('score') ?? 0;
+
+        $total = round((float) $assessmentTotal + (float) $examinationScore, 2);
+        $gradeRow = GradingScale::forScore($total);
 
         $result->class_arm_id = $classArmId;
         $result->academic_session_id = $academicSessionId;

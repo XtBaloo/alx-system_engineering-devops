@@ -82,6 +82,46 @@ class ResultCalculationTest extends TestCase
         $this->assertEquals('draft', $result->status);
     }
 
+    public function test_no_result_row_is_created_when_a_student_has_no_scores_recorded_yet(): void
+    {
+        $this->seedGrading();
+
+        $classArm = ClassArm::factory()->create();
+        $session = AcademicSession::factory()->create();
+        $term = Term::factory()->create(['academic_session_id' => $session->id]);
+        $subject = Subject::factory()->create();
+        $student = Student::factory()->create(['current_class_arm_id' => $classArm->id]);
+
+        $result = (new ResultService)->recalculateResult($student->id, $subject->id, $classArm->id, $session->id, $term->id);
+
+        $this->assertFalse($result->exists);
+        $this->assertDatabaseMissing('results', [
+            'student_id' => $student->id, 'subject_id' => $subject->id, 'term_id' => $term->id,
+        ]);
+    }
+
+    public function test_a_result_is_created_once_at_least_one_score_component_is_recorded(): void
+    {
+        $this->seedGrading();
+
+        $classArm = ClassArm::factory()->create();
+        $session = AcademicSession::factory()->create();
+        $term = Term::factory()->create(['academic_session_id' => $session->id]);
+        $subject = Subject::factory()->create();
+        $student = Student::factory()->create(['current_class_arm_id' => $classArm->id]);
+
+        ExaminationScore::create([
+            'student_id' => $student->id, 'subject_id' => $subject->id, 'class_arm_id' => $classArm->id,
+            'academic_session_id' => $session->id, 'term_id' => $term->id, 'score' => 30,
+        ]);
+
+        $result = (new ResultService)->recalculateResult($student->id, $subject->id, $classArm->id, $session->id, $term->id);
+
+        $this->assertTrue($result->exists);
+        $this->assertEquals(30, (float) $result->total_score);
+        $this->assertEquals('draft', $result->status);
+    }
+
     public function test_published_results_are_protected_from_being_silently_recalculated(): void
     {
         $this->seedGrading();

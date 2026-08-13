@@ -2,6 +2,24 @@
     <x-card class="mb-6">
         <form method="GET" class="flex flex-wrap items-end gap-3">
             <div>
+                <label class="form-label">Session</label>
+                <select name="academic_session_id" class="form-select w-44" onchange="this.form.submit()">
+                    <option value="">All Sessions</option>
+                    @foreach($sessions as $s)
+                        <option value="{{ $s->id }}" @selected(request('academic_session_id') == $s->id)>{{ $s->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Term</label>
+                <select name="term_id" class="form-select w-48" onchange="this.form.submit()">
+                    <option value="" @selected(! request('term_id'))>Current Term</option>
+                    @foreach($terms as $t)
+                        <option value="{{ $t->id }}" @selected(request('term_id') == $t->id)>{{ $t->academicSession?->name }} — {{ $t->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
                 <label class="form-label">Class</label>
                 <select name="class_arm_id" class="form-select w-48" onchange="this.form.submit()">
                     <option value="">All Classes</option>
@@ -28,6 +46,13 @@
                     @endforeach
                 </select>
             </div>
+            <div>
+                <label class="form-label">Student</label>
+                <input type="text" name="student" value="{{ request('student') }}" placeholder="Name or admission no." class="form-input w-48">
+            </div>
+            <div>
+                <button type="submit" class="btn-secondary text-sm">Filter</button>
+            </div>
         </form>
     </x-card>
 
@@ -49,7 +74,7 @@
                     @forelse($results as $r)
                         <tr>
                             <td><input type="checkbox" name="result_ids[]" value="{{ $r->id }}" form="batch-form" class="result-check"></td>
-                            <td>{{ $r->student?->full_name }}</td>
+                            <td><a href="{{ route('results.show', $r) }}" class="text-emerald-700 hover:underline">{{ $r->student?->full_name }}</a></td>
                             <td>{{ $r->classArm?->full_name }}</td>
                             <td>{{ $r->subject?->name }}</td>
                             <td>{{ $r->total_score }}</td>

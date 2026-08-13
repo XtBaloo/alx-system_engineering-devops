@@ -117,6 +117,7 @@ Route::middleware('auth')->group(function () {
         Route::get('results', [ResultController::class, 'index'])->name('results.index');
         Route::get('results/published', [ResultController::class, 'published'])->name('results.published');
     });
+    Route::get('results/{result}', [ResultController::class, 'show'])->name('results.show');
     Route::post('results/{result}/submit', [ResultController::class, 'submit'])->name('results.submit');
     Route::post('results/submit-batch', [ResultController::class, 'submitBatch'])->name('results.submit-batch');
     Route::post('results/{result}/review', [ResultController::class, 'review'])->name('results.review');
