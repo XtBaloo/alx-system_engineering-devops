@@ -42,6 +42,8 @@
                             <div>{{ $term?->name }}</div>
                         @endif
                     </div>
+                    @include('partials.notifications-bell')
+
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="flex items-center gap-2 rounded-md border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50">

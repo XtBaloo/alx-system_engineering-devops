@@ -7,6 +7,7 @@ use App\Models\Result;
 use App\Models\SchoolSetting;
 use App\Models\Subject;
 use App\Policies\ResultPolicy;
+use App\Services\NotificationDispatcher;
 use Illuminate\Http\Request;
 
 class ResultController extends Controller
@@ -102,16 +103,17 @@ class ResultController extends Controller
         return back()->with('success', 'Result approved.');
     }
 
-    public function publish(Result $result)
+    public function publish(Result $result, NotificationDispatcher $notifications)
     {
         abort_unless((new ResultPolicy)->publish(auth()->user(), $result), 403);
 
         $result->update(['status' => 'published', 'published_by' => auth()->id(), 'published_at' => now()]);
+        $notifications->resultPublished($result);
 
         return back()->with('success', 'Result published. Students and parents can now view it.');
     }
 
-    public function publishBatch(Request $request)
+    public function publishBatch(Request $request, NotificationDispatcher $notifications)
     {
         $data = $request->validate(['result_ids' => ['required', 'array'], 'result_ids.*' => ['exists:results,id']]);
 
@@ -121,6 +123,7 @@ class ResultController extends Controller
         foreach (Result::whereIn('id', $data['result_ids'])->get() as $result) {
             if ($policy->publish(auth()->user(), $result)) {
                 $result->update(['status' => 'published', 'published_by' => auth()->id(), 'published_at' => now()]);
+                $notifications->resultPublished($result);
                 $count++;
             }
         }

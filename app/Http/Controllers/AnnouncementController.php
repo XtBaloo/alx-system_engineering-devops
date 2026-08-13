@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\SchoolClass;
+use App\Services\NotificationDispatcher;
 use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
@@ -32,7 +33,7 @@ class AnnouncementController extends Controller
         return view('announcements.create', compact('classes'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, NotificationDispatcher $notifications)
     {
         $this->authorize('create', Announcement::class);
 
@@ -43,7 +44,11 @@ class AnnouncementController extends Controller
             $data['published_at'] = now();
         }
 
-        Announcement::create($data);
+        $announcement = Announcement::create($data);
+
+        if ($announcement->status === 'published') {
+            $notifications->announcementPublished($announcement);
+        }
 
         return redirect()->route('announcements.index')->with('success', 'Announcement created.');
     }
@@ -57,17 +62,22 @@ class AnnouncementController extends Controller
         return view('announcements.edit', compact('announcement', 'classes'));
     }
 
-    public function update(Request $request, Announcement $announcement)
+    public function update(Request $request, Announcement $announcement, NotificationDispatcher $notifications)
     {
         $this->authorize('update', $announcement);
 
         $data = $this->validated($request);
+        $isNewlyPublished = $data['status'] === 'published' && $announcement->status !== 'published';
 
-        if ($data['status'] === 'published' && $announcement->status !== 'published') {
+        if ($isNewlyPublished) {
             $data['published_at'] = now();
         }
 
         $announcement->update($data);
+
+        if ($isNewlyPublished) {
+            $notifications->announcementPublished($announcement);
+        }
 
         return redirect()->route('announcements.index')->with('success', 'Announcement updated.');
     }

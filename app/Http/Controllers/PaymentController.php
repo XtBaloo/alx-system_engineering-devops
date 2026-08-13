@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Models\Student;
 use App\Models\StudentFee;
+use App\Services\NotificationDispatcher;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class PaymentController extends Controller
         return view('payments.create', compact('students', 'student', 'studentFees'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, NotificationDispatcher $notifications)
     {
         $data = $request->validate([
             'student_fee_id' => ['required', 'exists:student_fees,id'],
@@ -66,6 +67,8 @@ class PaymentController extends Controller
 
             return $payment;
         });
+
+        $notifications->paymentReceived($payment);
 
         return redirect()->route('payments.receipt', $payment)->with('success', 'Payment recorded successfully.');
     }
