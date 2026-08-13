@@ -12,8 +12,6 @@ class GuardianController extends Controller
 {
     public function index(Request $request)
     {
-        abort_unless($request->user()->can('manage-students'), 403);
-
         $guardians = Guardian::withCount('students')
             ->when($request->search, function ($q, $search) {
                 $q->where('first_name', 'like', "%{$search}%")
@@ -27,15 +25,11 @@ class GuardianController extends Controller
 
     public function create()
     {
-        abort_unless(auth()->user()->can('manage-students'), 403);
-
         return view('guardians.create');
     }
 
     public function store(Request $request)
     {
-        abort_unless($request->user()->can('manage-students'), 403);
-
         $data = $this->validated($request);
         $createLogin = $request->boolean('create_login');
         unset($data['create_login']);
@@ -57,8 +51,6 @@ class GuardianController extends Controller
 
     public function show(Guardian $guardian)
     {
-        abort_unless(auth()->user()->can('manage-students'), 403);
-
         $guardian->load('students.currentClassArm.schoolClass');
 
         return view('guardians.show', compact('guardian'));
@@ -66,15 +58,11 @@ class GuardianController extends Controller
 
     public function edit(Guardian $guardian)
     {
-        abort_unless(auth()->user()->can('manage-students'), 403);
-
         return view('guardians.edit', compact('guardian'));
     }
 
     public function update(Request $request, Guardian $guardian)
     {
-        abort_unless($request->user()->can('manage-students'), 403);
-
         $data = $this->validated($request);
         unset($data['create_login']);
         $guardian->update($data);
@@ -84,8 +72,6 @@ class GuardianController extends Controller
 
     public function destroy(Guardian $guardian)
     {
-        abort_unless(auth()->user()->can('manage-students'), 403);
-
         $guardian->delete();
 
         return redirect()->route('guardians.index')->with('success', 'Guardian removed.');

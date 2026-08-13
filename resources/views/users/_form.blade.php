@@ -3,14 +3,17 @@
     <div>
         <label class="form-label">Name</label>
         <input type="text" name="name" value="{{ old('name', $user->name ?? '') }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('name')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Email</label>
         <input type="email" name="email" value="{{ old('email', $user->email ?? '') }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('email')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Password {{ $user ? '(leave blank to keep current)' : '' }}</label>
         <input type="password" name="password" class="form-input" {{ $user ? '' : 'required' }} minlength="8">
+        <x-input-error :messages="$errors->get('password')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Role</label>
@@ -20,6 +23,7 @@
                 <option value="{{ $role->name }}" @selected(old('role', $user?->roles->first()?->name) === $role->name)>{{ ucfirst(str_replace('-', ' ', $role->name)) }}</option>
             @endforeach
         </select>
+        <x-input-error :messages="$errors->get('role')" class="mt-1" />
     </div>
 </div>
 <div>

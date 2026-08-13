@@ -2,14 +2,17 @@
 <div>
     <label class="form-label">Name</label>
     <input type="text" name="name" value="{{ old('name', $feeCategory->name ?? '') }}" class="form-input" required>
+    <x-input-error :messages="$errors->get('name')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Code</label>
     <input type="text" name="code" value="{{ old('code', $feeCategory->code ?? '') }}" class="form-input" required>
+    <x-input-error :messages="$errors->get('code')" class="mt-1" />
 </div>
 <div class="sm:col-span-2">
     <label class="form-label">Description</label>
     <textarea name="description" rows="2" class="form-textarea">{{ old('description', $feeCategory->description ?? '') }}</textarea>
+    <x-input-error :messages="$errors->get('description')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Status</label>
@@ -17,4 +20,5 @@
         <option value="active" @selected(old('status', $feeCategory->status ?? 'active') === 'active')>Active</option>
         <option value="inactive" @selected(old('status', $feeCategory->status ?? '') === 'inactive')>Inactive</option>
     </select>
+    <x-input-error :messages="$errors->get('status')" class="mt-1" />
 </div>

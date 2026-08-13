@@ -3,10 +3,12 @@
     <div>
         <label class="form-label">First Name</label>
         <input type="text" name="first_name" value="{{ old('first_name', $teacher->first_name ?? '') }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('first_name')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Last Name</label>
         <input type="text" name="last_name" value="{{ old('last_name', $teacher->last_name ?? '') }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('last_name')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Gender</label>
@@ -14,30 +16,37 @@
             <option value="male" @selected(old('gender', $teacher->gender ?? '') === 'male')>Male</option>
             <option value="female" @selected(old('gender', $teacher->gender ?? '') === 'female')>Female</option>
         </select>
+        <x-input-error :messages="$errors->get('gender')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Date of Birth</label>
         <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $teacher?->date_of_birth?->format('Y-m-d')) }}" class="form-input">
+        <x-input-error :messages="$errors->get('date_of_birth')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Phone</label>
         <input type="text" name="phone" value="{{ old('phone', $teacher->phone ?? '') }}" class="form-input">
+        <x-input-error :messages="$errors->get('phone')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Email</label>
         <input type="email" name="email" value="{{ old('email', $teacher->email ?? '') }}" class="form-input">
+        <x-input-error :messages="$errors->get('email')" class="mt-1" />
     </div>
     <div class="sm:col-span-2">
         <label class="form-label">Address</label>
         <textarea name="address" rows="2" class="form-textarea">{{ old('address', $teacher->address ?? '') }}</textarea>
+        <x-input-error :messages="$errors->get('address')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Qualification</label>
         <input type="text" name="qualification" value="{{ old('qualification', $teacher->qualification ?? '') }}" class="form-input">
+        <x-input-error :messages="$errors->get('qualification')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Employment Date</label>
         <input type="date" name="employment_date" value="{{ old('employment_date', $teacher?->employment_date?->format('Y-m-d')) }}" class="form-input">
+        <x-input-error :messages="$errors->get('employment_date')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Status</label>
@@ -46,10 +55,12 @@
                 <option value="{{ $val }}" @selected(old('status', $teacher->status ?? 'active') === $val)>{{ $label }}</option>
             @endforeach
         </select>
+        <x-input-error :messages="$errors->get('status')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Photograph</label>
         <input type="file" name="photo" class="text-sm">
+        <x-input-error :messages="$errors->get('photo')" class="mt-1" />
     </div>
 </div>
 

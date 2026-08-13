@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FeeCategory;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FeeCategoryController extends Controller
 {
@@ -55,7 +56,7 @@ class FeeCategoryController extends Controller
     {
         return $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:20', 'unique:fee_categories,code,'.$request->route('fee_category')?->id],
+            'code' => ['required', 'string', 'max:20', Rule::unique('fee_categories', 'code')->ignore($request->route('fee_category')?->id)],
             'description' => ['nullable', 'string', 'max:1000'],
             'status' => ['required', 'in:active,inactive'],
         ]);

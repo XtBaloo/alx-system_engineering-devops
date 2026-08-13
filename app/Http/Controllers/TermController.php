@@ -87,8 +87,6 @@ class TermController extends Controller
 
     public function reopen(Term $term)
     {
-        abort_unless(auth()->user()->hasAnyRole(['super-admin', 'administrator']), 403);
-
         $term->update(['status' => 'open', 'closed_at' => null, 'closed_by' => null]);
 
         return back()->with('success', "{$term->name} has been reopened.");

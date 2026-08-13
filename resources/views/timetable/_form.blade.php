@@ -8,6 +8,7 @@
                 <option value="{{ $arm->id }}" @selected(old('class_arm_id', $timetable?->class_arm_id) == $arm->id)>{{ $arm->full_name }}</option>
             @endforeach
         </select>
+        <x-input-error :messages="$errors->get('class_arm_id')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Subject</label>
@@ -17,6 +18,7 @@
                 <option value="{{ $subject->id }}" @selected(old('subject_id', $timetable?->subject_id) == $subject->id)>{{ $subject->name }}</option>
             @endforeach
         </select>
+        <x-input-error :messages="$errors->get('subject_id')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Teacher</label>
@@ -26,6 +28,7 @@
                 <option value="{{ $teacher->id }}" @selected(old('teacher_id', $timetable?->teacher_id) == $teacher->id)>{{ $teacher->full_name }}</option>
             @endforeach
         </select>
+        <x-input-error :messages="$errors->get('teacher_id')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Day of Week</label>
@@ -35,17 +38,21 @@
                 <option value="{{ $value }}" @selected(old('day_of_week', $timetable?->day_of_week) == $value)>{{ $label }}</option>
             @endforeach
         </select>
+        <x-input-error :messages="$errors->get('day_of_week')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Start Time</label>
         <input type="time" name="start_time" value="{{ old('start_time', $timetable?->start_time?->format('H:i')) }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('start_time')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">End Time</label>
         <input type="time" name="end_time" value="{{ old('end_time', $timetable?->end_time?->format('H:i')) }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('end_time')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Room / Venue</label>
         <input type="text" name="room" value="{{ old('room', $timetable?->room ?? '') }}" class="form-input" required placeholder="e.g. Room 12">
+        <x-input-error :messages="$errors->get('room')" class="mt-1" />
     </div>
 </div>

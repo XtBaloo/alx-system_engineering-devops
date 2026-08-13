@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SubjectController extends Controller
 {
@@ -55,7 +56,7 @@ class SubjectController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:20', 'unique:subjects,code,'.($subject?->id)],
+            'code' => ['required', 'string', 'max:20', Rule::unique('subjects', 'code')->ignore($subject?->id)],
             'category' => ['nullable', 'string', 'max:100'],
             'status' => ['required', 'in:active,inactive'],
         ]);

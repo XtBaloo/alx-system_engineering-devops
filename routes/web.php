@@ -84,7 +84,9 @@ Route::middleware('auth')->group(function () {
     Route::post('students/promotions', [StudentController::class, 'promote'])->name('students.promote');
     Route::post('students/{student}/reverse-promotion/{enrollment}', [StudentController::class, 'reversePromotion'])->name('students.reverse-promotion');
     Route::resource('students', StudentController::class);
-    Route::resource('guardians', GuardianController::class);
+    Route::middleware('permission:manage-students')->group(function () {
+        Route::resource('guardians', GuardianController::class);
+    });
     Route::post('students/{student}/guardians', [StudentController::class, 'attachGuardian'])->name('students.guardians.attach');
     Route::delete('students/{student}/guardians/{guardian}', [StudentController::class, 'detachGuardian'])->name('students.guardians.detach');
 

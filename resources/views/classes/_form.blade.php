@@ -3,6 +3,7 @@
     <div>
         <label class="form-label">Class Name</label>
         <input type="text" name="name" value="{{ old('name', $schoolClass->name ?? '') }}" class="form-input" required placeholder="e.g. JSS 1">
+        <x-input-error :messages="$errors->get('name')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Level</label>
@@ -11,10 +12,12 @@
                 <option value="{{ $val }}" @selected(old('level', $schoolClass->level ?? '') == $val)>{{ $label }}</option>
             @endforeach
         </select>
+        <x-input-error :messages="$errors->get('level')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Sort Order</label>
         <input type="number" name="order" value="{{ old('order', $schoolClass->order ?? 0) }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('order')" class="mt-1" />
     </div>
 </div>
 

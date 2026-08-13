@@ -3,26 +3,32 @@
     <div>
         <label class="form-label">First Name</label>
         <input type="text" name="first_name" value="{{ old('first_name', $guardian->first_name ?? '') }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('first_name')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Last Name</label>
         <input type="text" name="last_name" value="{{ old('last_name', $guardian->last_name ?? '') }}" class="form-input" required>
+        <x-input-error :messages="$errors->get('last_name')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Phone</label>
         <input type="text" name="phone" value="{{ old('phone', $guardian->phone ?? '') }}" class="form-input">
+        <x-input-error :messages="$errors->get('phone')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Email</label>
         <input type="email" name="email" value="{{ old('email', $guardian->email ?? '') }}" class="form-input">
+        <x-input-error :messages="$errors->get('email')" class="mt-1" />
     </div>
     <div>
         <label class="form-label">Occupation</label>
         <input type="text" name="occupation" value="{{ old('occupation', $guardian->occupation ?? '') }}" class="form-input">
+        <x-input-error :messages="$errors->get('occupation')" class="mt-1" />
     </div>
     <div class="sm:col-span-2">
         <label class="form-label">Address</label>
         <textarea name="address" rows="2" class="form-textarea">{{ old('address', $guardian->address ?? '') }}</textarea>
+        <x-input-error :messages="$errors->get('address')" class="mt-1" />
     </div>
 </div>
 @unless($guardian)

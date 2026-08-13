@@ -6,6 +6,7 @@ use App\Models\AcademicSession;
 use App\Models\SchoolSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class AcademicSessionController extends Controller
 {
@@ -69,7 +70,7 @@ class AcademicSessionController extends Controller
     protected function validated(Request $request, ?AcademicSession $session = null): array
     {
         return $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:academic_sessions,name,'.($session?->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('academic_sessions', 'name')->ignore($session?->id)],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after:start_date'],
         ]);

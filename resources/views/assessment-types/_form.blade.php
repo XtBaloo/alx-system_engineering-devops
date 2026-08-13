@@ -2,18 +2,22 @@
 <div>
     <label class="form-label">Name</label>
     <input type="text" name="name" value="{{ old('name', $assessmentType->name ?? '') }}" class="form-input" required placeholder="e.g. CA 1">
+    <x-input-error :messages="$errors->get('name')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Code</label>
     <input type="text" name="code" value="{{ old('code', $assessmentType->code ?? '') }}" class="form-input" required placeholder="e.g. CA1">
+    <x-input-error :messages="$errors->get('code')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Max Score</label>
     <input type="number" name="max_score" value="{{ old('max_score', $assessmentType->max_score ?? '') }}" class="form-input" required>
+    <x-input-error :messages="$errors->get('max_score')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Display Order</label>
     <input type="number" name="order" value="{{ old('order', $assessmentType->order ?? 0) }}" class="form-input" required>
+    <x-input-error :messages="$errors->get('order')" class="mt-1" />
 </div>
 <div class="sm:col-span-2">
     <label class="flex items-center gap-2 text-sm">

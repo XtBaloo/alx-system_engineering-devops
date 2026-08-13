@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\AcademicSession;
+use App\Models\Term;
 use App\Models\User;
 use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -62,5 +64,40 @@ class AuthorizationTest extends TestCase
 
         $this->actingAs($user)->get('/attendance/take')->assertForbidden();
         $this->actingAs($user)->get('/teachers')->assertForbidden();
+    }
+
+    public function test_administrator_can_manage_guardians_but_teacher_cannot(): void
+    {
+        $admin = User::factory()->create();
+        $admin->assignRole('administrator');
+
+        $teacher = User::factory()->create();
+        $teacher->assignRole('teacher');
+
+        $this->actingAs($admin)->get('/guardians')->assertOk();
+        $this->actingAs($admin)->get('/guardians/create')->assertOk();
+
+        $this->actingAs($teacher)->get('/guardians')->assertForbidden();
+        $this->actingAs($teacher)->get('/guardians/create')->assertForbidden();
+    }
+
+    public function test_only_super_admin_or_administrator_can_reopen_a_closed_term(): void
+    {
+        $session = AcademicSession::factory()->create();
+        $term = Term::factory()->create([
+            'academic_session_id' => $session->id,
+            'status' => 'closed',
+            'closed_at' => now(),
+        ]);
+
+        $teacher = User::factory()->create();
+        $teacher->assignRole('teacher');
+        $this->actingAs($teacher)->post("/terms/{$term->id}/reopen")->assertForbidden();
+        $this->assertEquals('closed', $term->fresh()->status);
+
+        $admin = User::factory()->create();
+        $admin->assignRole('administrator');
+        $this->actingAs($admin)->post("/terms/{$term->id}/reopen")->assertRedirect();
+        $this->assertEquals('open', $term->fresh()->status);
     }
 }

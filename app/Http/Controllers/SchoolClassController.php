@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SchoolClass;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SchoolClassController extends Controller
 {
@@ -62,7 +63,7 @@ class SchoolClassController extends Controller
     protected function validated(Request $request, ?SchoolClass $class = null): array
     {
         return $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:classes,name,'.($class?->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('classes', 'name')->ignore($class?->id)],
             'level' => ['required', 'in:nursery,primary,junior_secondary,senior_secondary'],
             'order' => ['required', 'integer', 'min:0'],
         ]);

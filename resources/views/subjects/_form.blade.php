@@ -2,14 +2,17 @@
 <div>
     <label class="form-label">Subject Name</label>
     <input type="text" name="name" value="{{ old('name', $subject->name ?? '') }}" class="form-input" required>
+    <x-input-error :messages="$errors->get('name')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Subject Code</label>
     <input type="text" name="code" value="{{ old('code', $subject->code ?? '') }}" class="form-input" required>
+    <x-input-error :messages="$errors->get('code')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Category</label>
     <input type="text" name="category" value="{{ old('category', $subject->category ?? '') }}" class="form-input" placeholder="e.g. Core, Science, Arts">
+    <x-input-error :messages="$errors->get('category')" class="mt-1" />
 </div>
 <div>
     <label class="form-label">Status</label>
@@ -17,6 +20,7 @@
         <option value="active" @selected(old('status', $subject->status ?? 'active') === 'active')>Active</option>
         <option value="inactive" @selected(old('status', $subject->status ?? '') === 'inactive')>Inactive</option>
     </select>
+    <x-input-error :messages="$errors->get('status')" class="mt-1" />
 </div>
 <div class="sm:col-span-2">
     <label class="flex items-center gap-2 text-sm">
