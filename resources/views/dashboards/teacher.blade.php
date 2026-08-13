@@ -13,6 +13,7 @@
 
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <x-card title="My Class / Subject Assignments">
+            <div class="overflow-x-auto">
             <table class="table-base">
                 <thead><tr><th>Class</th><th>Subject</th></tr></thead>
                 <tbody>
@@ -26,6 +27,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
             <div class="mt-4 flex gap-3">
                 <a href="{{ route('attendance.create') }}" class="btn-primary">Take Attendance</a>
                 <a href="{{ route('scores.create') }}" class="btn-secondary">Enter Scores</a>

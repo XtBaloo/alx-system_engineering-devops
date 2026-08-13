@@ -1,6 +1,7 @@
 <x-layouts.dashboard title="My Results">
     @forelse($results as $termName => $termResults)
         <x-card :title="$termName" class="mb-6">
+            <div class="overflow-x-auto">
             <table class="table-base">
                 <thead><tr><th>Subject</th><th>CA/Assessment</th><th>Exam</th><th>Total</th><th>Grade</th><th>Remark</th><th>Position</th></tr></thead>
                 <tbody>
@@ -17,6 +18,7 @@
                     @endforeach
                 </tbody>
             </table>
+            </div>
             <a href="{{ route('report-cards.pdf', $student) }}" class="mt-3 inline-block text-sm font-medium text-emerald-700 hover:underline">Download report card PDF &rarr;</a>
         </x-card>
     @empty

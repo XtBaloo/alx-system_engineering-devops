@@ -6,6 +6,7 @@
         <a href="{{ route('guardians.create') }}" class="btn-primary">+ Add Guardian</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Children</th><th></th></tr></thead>
             <tbody>
@@ -25,6 +26,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $guardians->links() }}</div>
 </x-layouts.dashboard>

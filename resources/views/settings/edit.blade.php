@@ -52,19 +52,19 @@
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                 <div>
                     <label class="form-label">School Logo</label>
-                    @if($settings->logo_path)<img src="{{ Storage::disk('public')->url($settings->logo_path) }}" class="mb-2 h-16 w-16 rounded-full object-cover">@endif
+                    @if($settings->logo_path)<img src="{{ Storage::disk('public')->url($settings->logo_path) }}" alt="Current school logo" class="mb-2 h-16 w-16 rounded-full object-cover">@endif
                     <input type="file" name="logo" class="text-sm">
                     <x-input-error :messages="$errors->get('logo')" class="mt-1" />
                 </div>
                 <div>
                     <label class="form-label">School Signature</label>
-                    @if($settings->school_signature_path)<img src="{{ Storage::disk('public')->url($settings->school_signature_path) }}" class="mb-2 h-12">@endif
+                    @if($settings->school_signature_path)<img src="{{ Storage::disk('public')->url($settings->school_signature_path) }}" alt="Current school signature" class="mb-2 h-12">@endif
                     <input type="file" name="school_signature" class="text-sm">
                     <x-input-error :messages="$errors->get('school_signature')" class="mt-1" />
                 </div>
                 <div>
                     <label class="form-label">Principal Signature</label>
-                    @if($settings->principal_signature_path)<img src="{{ Storage::disk('public')->url($settings->principal_signature_path) }}" class="mb-2 h-12">@endif
+                    @if($settings->principal_signature_path)<img src="{{ Storage::disk('public')->url($settings->principal_signature_path) }}" alt="Current principal signature" class="mb-2 h-12">@endif
                     <input type="file" name="principal_signature" class="text-sm">
                     <x-input-error :messages="$errors->get('principal_signature')" class="mt-1" />
                 </div>

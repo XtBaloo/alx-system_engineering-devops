@@ -8,6 +8,7 @@
         <a href="{{ route('assessment-types.create') }}" class="btn-primary">+ Add Component</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Order</th><th>Name</th><th>Code</th><th>Max Score</th><th>Status</th><th></th></tr></thead>
             <tbody>
@@ -28,5 +29,6 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
 </x-layouts.dashboard>

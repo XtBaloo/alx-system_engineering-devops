@@ -18,6 +18,7 @@
     </x-card>
 
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Date</th><th>Student</th><th>Class</th><th>Status</th></tr></thead>
             <tbody>
@@ -36,6 +37,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $records->links() }}</div>
 </x-layouts.dashboard>

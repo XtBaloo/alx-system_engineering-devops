@@ -24,6 +24,7 @@
     </x-card>
 
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Student</th><th>Present</th><th>Absent</th><th>Late</th><th>Excused</th><th>Total Days</th><th>%</th></tr></thead>
             <tbody>
@@ -42,6 +43,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4 print:hidden">{{ $summary->links() }}</div>
 </x-layouts.dashboard>

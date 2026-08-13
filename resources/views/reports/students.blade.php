@@ -25,6 +25,7 @@
         </form>
     </x-card>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Admission No.</th><th>Name</th><th>Class</th><th>Gender</th><th>Status</th></tr></thead>
             <tbody>
@@ -41,6 +42,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4 print:hidden">{{ $students->links() }}</div>
 </x-layouts.dashboard>

@@ -6,6 +6,7 @@
         <a href="{{ route('subjects.create') }}" class="btn-primary">+ New Subject</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Name</th><th>Code</th><th>Category</th><th>Compulsory</th><th>Status</th><th></th></tr></thead>
             <tbody>
@@ -26,6 +27,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $subjects->links() }}</div>
 </x-layouts.dashboard>

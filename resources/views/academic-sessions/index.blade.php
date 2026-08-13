@@ -3,6 +3,7 @@
         <a href="{{ route('academic-sessions.create') }}" class="btn-primary">+ New Session</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Session</th><th>Start</th><th>End</th><th>Terms</th><th>Status</th><th></th></tr></thead>
             <tbody>
@@ -29,6 +30,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $sessions->links() }}</div>
 </x-layouts.dashboard>

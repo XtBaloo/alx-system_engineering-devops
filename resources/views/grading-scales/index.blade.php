@@ -3,6 +3,7 @@
         <a href="{{ route('grading-scales.create') }}" class="btn-primary">+ Add Grade</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Range</th><th>Grade</th><th>Remark</th><th>Grade Point</th><th></th></tr></thead>
             <tbody>
@@ -22,5 +23,6 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
 </x-layouts.dashboard>

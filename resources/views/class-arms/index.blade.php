@@ -3,6 +3,7 @@
         <a href="{{ route('class-arms.create') }}" class="btn-primary">+ New Class Arm</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Class Arm</th><th>Class Teacher</th><th>Students</th><th>Capacity</th><th></th></tr></thead>
             <tbody>
@@ -22,6 +23,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $classArms->links() }}</div>
 </x-layouts.dashboard>

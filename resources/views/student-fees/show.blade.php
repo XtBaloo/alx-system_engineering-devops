@@ -1,5 +1,6 @@
 <x-layouts.dashboard :title="'Fees — '.$student->full_name">
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Term</th><th>Category</th><th>Due</th><th>Paid</th><th>Balance</th><th>Status</th></tr></thead>
             <tbody>
@@ -17,9 +18,11 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
 
     <x-card title="Payment History" class="mt-6">
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Receipt No.</th><th>Date</th><th>Amount</th><th>Method</th><th></th></tr></thead>
             <tbody>
@@ -36,5 +39,6 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
 </x-layouts.dashboard>

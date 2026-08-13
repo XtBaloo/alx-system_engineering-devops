@@ -23,6 +23,8 @@
             x-transition
             @click.outside="open = false"
             @keydown.escape.window="open = false"
+            role="dialog"
+            aria-modal="true"
         >
             <h3 class="text-base font-semibold text-gray-900">{{ $title }}</h3>
             <p class="mt-2 text-sm text-gray-600">{{ $confirm }}</p>

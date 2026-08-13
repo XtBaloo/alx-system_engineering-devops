@@ -8,6 +8,7 @@
         </dl>
     </x-card>
     <x-card title="History">
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Date</th><th>Term</th><th>Status</th></tr></thead>
             <tbody>
@@ -25,6 +26,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $attendances->links() }}</div>
 </x-layouts.dashboard>

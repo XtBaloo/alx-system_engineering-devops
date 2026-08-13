@@ -2,7 +2,7 @@
     <tr>
         <td style="width:60px;">
             @if($settings->logo_path)
-                <img src="{{ $pdfMode ? public_path('storage/'.$settings->logo_path) : Storage::disk('public')->url($settings->logo_path) }}" style="height:50px; width:50px; border-radius:50%;">
+                <img src="{{ $pdfMode ? public_path('storage/'.$settings->logo_path) : Storage::disk('public')->url($settings->logo_path) }}" alt="{{ $settings->school_name }} logo" style="height:50px; width:50px; border-radius:50%;">
             @endif
         </td>
         <td style="text-align:center;">

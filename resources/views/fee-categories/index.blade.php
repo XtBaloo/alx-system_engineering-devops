@@ -3,6 +3,7 @@
         <a href="{{ route('fee-categories.create') }}" class="btn-primary">+ New Category</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Name</th><th>Code</th><th>Structures</th><th>Status</th><th></th></tr></thead>
             <tbody>
@@ -22,6 +23,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $categories->links() }}</div>
 </x-layouts.dashboard>

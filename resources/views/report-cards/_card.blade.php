@@ -2,7 +2,7 @@
     <tr>
         <td style="width:80px; vertical-align:top;">
             @if($settings->logo_path)
-                <img src="{{ $pdfMode ? public_path('storage/'.$settings->logo_path) : Storage::disk('public')->url($settings->logo_path) }}" style="height:64px; width:64px; border-radius:50%;">
+                <img src="{{ $pdfMode ? public_path('storage/'.$settings->logo_path) : Storage::disk('public')->url($settings->logo_path) }}" alt="{{ $settings->school_name }} logo" style="height:64px; width:64px; border-radius:50%;">
             @endif
         </td>
         <td style="text-align:center; vertical-align:top;">
@@ -14,7 +14,7 @@
         </td>
         <td style="width:80px; text-align:right; vertical-align:top;">
             @if($student->photo_path)
-                <img src="{{ $pdfMode ? public_path('storage/'.$student->photo_path) : Storage::disk('public')->url($student->photo_path) }}" style="height:70px; width:60px; object-fit:cover; border:1px solid #ccc;">
+                <img src="{{ $pdfMode ? public_path('storage/'.$student->photo_path) : Storage::disk('public')->url($student->photo_path) }}" alt="{{ $student->full_name }}" style="height:70px; width:60px; object-fit:cover; border:1px solid #ccc;">
             @endif
         </td>
     </tr>
@@ -116,13 +116,13 @@
     <tr>
         <td style="width:50%; text-align:center;">
             @if($settings->school_signature_path)
-                <img src="{{ $pdfMode ? public_path('storage/'.$settings->school_signature_path) : Storage::disk('public')->url($settings->school_signature_path) }}" style="height:40px;"><br>
+                <img src="{{ $pdfMode ? public_path('storage/'.$settings->school_signature_path) : Storage::disk('public')->url($settings->school_signature_path) }}" alt="School signature" style="height:40px;"><br>
             @endif
             <div style="border-top:1px solid #333; margin-top:4px; padding-top:2px; width:70%; margin-left:auto; margin-right:auto;">Class Teacher's Signature</div>
         </td>
         <td style="width:50%; text-align:center;">
             @if($settings->principal_signature_path)
-                <img src="{{ $pdfMode ? public_path('storage/'.$settings->principal_signature_path) : Storage::disk('public')->url($settings->principal_signature_path) }}" style="height:40px;"><br>
+                <img src="{{ $pdfMode ? public_path('storage/'.$settings->principal_signature_path) : Storage::disk('public')->url($settings->principal_signature_path) }}" alt="Principal signature" style="height:40px;"><br>
             @endif
             <div style="border-top:1px solid #333; margin-top:4px; padding-top:2px; width:70%; margin-left:auto; margin-right:auto;">{{ $settings->principal_name ?? 'Principal' }}'s Signature</div>
         </td>

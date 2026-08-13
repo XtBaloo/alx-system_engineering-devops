@@ -3,6 +3,7 @@
         <a href="{{ route('classes.create') }}" class="btn-primary">+ New Class</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Name</th><th>Level</th><th>Arms</th><th>Order</th><th></th></tr></thead>
             <tbody>
@@ -22,6 +23,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $classes->links() }}</div>
 </x-layouts.dashboard>

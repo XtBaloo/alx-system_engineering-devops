@@ -36,6 +36,7 @@
 
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <x-card title="Latest Published Results">
+            <div class="overflow-x-auto">
             <table class="table-base">
                 <thead><tr><th>Subject</th><th>Total</th><th>Grade</th></tr></thead>
                 <tbody>
@@ -46,6 +47,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
             <a href="{{ route('my.results') }}" class="mt-4 inline-block text-sm font-medium text-emerald-700 hover:underline">View full results &rarr;</a>
         </x-card>
 

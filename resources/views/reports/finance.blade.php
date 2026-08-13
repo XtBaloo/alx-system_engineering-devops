@@ -13,6 +13,7 @@
     </x-card>
 
     <x-card title="Breakdown by Category" class="mb-6">
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Category</th><th>Due</th><th>Collected</th><th>Outstanding</th></tr></thead>
             <tbody>
@@ -28,6 +29,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
 
     <x-card title="Recent Payments">
@@ -36,6 +38,7 @@
             <div><label class="form-label">To</label><input type="date" name="to" value="{{ request('to') }}" class="form-input"></div>
             <button type="submit" class="btn-secondary">Filter</button>
         </form>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Receipt No.</th><th>Student</th><th>Amount</th><th>Method</th><th>Date</th></tr></thead>
             <tbody>
@@ -52,6 +55,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
         <div class="mt-4 print:hidden">{{ $recentPayments->links() }}</div>
     </x-card>
 </x-layouts.dashboard>

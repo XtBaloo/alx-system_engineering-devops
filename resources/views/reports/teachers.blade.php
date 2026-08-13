@@ -3,6 +3,7 @@
         <button onclick="window.print()" class="btn-secondary">Print</button>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Teacher ID</th><th>Name</th><th>Status</th><th>Assignments</th></tr></thead>
             <tbody>
@@ -18,6 +19,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4 print:hidden">{{ $teachers->links() }}</div>
 </x-layouts.dashboard>

@@ -21,6 +21,19 @@ class ProfileTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_profile_page_uses_the_schoolhub_dashboard_layout(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/profile');
+
+        $response->assertOk();
+        // The profile page previously rendered inside Breeze's stock layout
+        // (no sidebar, no SchoolHub branding). It must now share the same
+        // <aside> sidebar shell as the rest of the authenticated app.
+        $response->assertSee('<aside', false);
+    }
+
     public function test_profile_information_can_be_updated(): void
     {
         $user = User::factory()->create();

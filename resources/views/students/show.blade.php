@@ -3,7 +3,7 @@
         <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-center gap-4">
                 @if($student->photo_path)
-                    <img src="{{ Storage::disk('public')->url($student->photo_path) }}" class="h-16 w-16 rounded-full object-cover">
+                    <img src="{{ Storage::disk('public')->url($student->photo_path) }}" alt="{{ $student->full_name }}" class="h-16 w-16 rounded-full object-cover">
                 @else
                     <div class="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-xl font-bold text-emerald-700">
                         {{ strtoupper(substr($student->first_name,0,1)) }}{{ strtoupper(substr($student->last_name,0,1)) }}

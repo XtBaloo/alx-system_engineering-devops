@@ -9,7 +9,7 @@
         <x-card class="lg:col-span-1">
             <div class="flex flex-col items-center text-center">
                 @if($teacher->photo_path)
-                    <img src="{{ Storage::disk('public')->url($teacher->photo_path) }}" class="h-24 w-24 rounded-full object-cover">
+                    <img src="{{ Storage::disk('public')->url($teacher->photo_path) }}" alt="{{ $teacher->full_name }}" class="h-24 w-24 rounded-full object-cover">
                 @else
                     <div class="flex h-24 w-24 items-center justify-center rounded-full bg-emerald-100 text-2xl font-bold text-emerald-700">
                         {{ strtoupper(substr($teacher->first_name,0,1)) }}{{ strtoupper(substr($teacher->last_name,0,1)) }}
@@ -29,6 +29,7 @@
         </x-card>
 
         <x-card title="Class & Subject Assignments" class="lg:col-span-2">
+            <div class="overflow-x-auto">
             <table class="table-base">
                 <thead><tr><th>Class</th><th>Subject</th><th>Session</th></tr></thead>
                 <tbody>
@@ -39,6 +40,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </x-card>
     </div>
 </x-layouts.dashboard>

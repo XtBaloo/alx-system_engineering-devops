@@ -3,6 +3,7 @@
         <a href="{{ route('teacher-assignments.create') }}" class="btn-primary">+ New Assignment</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Teacher</th><th>Class</th><th>Subject</th><th>Session</th><th></th></tr></thead>
             <tbody>
@@ -19,6 +20,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $assignments->links() }}</div>
 </x-layouts.dashboard>

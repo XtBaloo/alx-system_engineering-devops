@@ -30,6 +30,7 @@
 
             <x-input-error :messages="$errors->get('student_ids')" class="mb-2" />
 
+            <div class="overflow-x-auto">
             <table class="table-base">
                 <thead>
                     <tr>
@@ -50,6 +51,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
 
             @if($students->isNotEmpty())
             <div class="mt-4 flex justify-end">

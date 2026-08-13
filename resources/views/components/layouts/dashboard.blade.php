@@ -11,7 +11,7 @@
 </head>
 <body class="font-sans antialiased bg-gray-100 text-gray-900" x-data="{ sidebarOpen: false }">
 
-    <div x-show="sidebarOpen" x-cloak class="fixed inset-0 z-30 bg-gray-900/50 lg:hidden" @click="sidebarOpen = false"></div>
+    <div x-show="sidebarOpen" x-cloak class="fixed inset-0 z-30 bg-gray-900/50 lg:hidden print:hidden" @click="sidebarOpen = false"></div>
 
     <div class="flex min-h-screen">
         <aside
@@ -21,10 +21,10 @@
             @include('partials.sidebar')
         </aside>
 
-        <div class="flex min-h-screen flex-1 flex-col lg:pl-0">
+        <div class="flex min-h-screen min-w-0 flex-1 flex-col lg:pl-0">
             <header class="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-gray-200 bg-white px-4 py-3 shadow-sm">
                 <div class="flex items-center gap-3">
-                    <button @click="sidebarOpen = !sidebarOpen" class="rounded-md p-2 text-gray-500 hover:bg-gray-100 lg:hidden">
+                    <button @click="sidebarOpen = !sidebarOpen" class="rounded-md p-2 text-gray-500 hover:bg-gray-100 lg:hidden" aria-label="Toggle navigation menu" :aria-expanded="sidebarOpen.toString()">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                     <div>
@@ -66,7 +66,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 p-4 sm:p-6 lg:p-8">
+            <main class="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">
                 <x-toast />
                 {{ $slot }}
             </main>

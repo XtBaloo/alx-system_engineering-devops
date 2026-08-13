@@ -6,6 +6,7 @@
         <a href="{{ route('users.create') }}" class="btn-primary">+ Add User</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr></thead>
             <tbody>
@@ -27,6 +28,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $users->links() }}</div>
 </x-layouts.dashboard>

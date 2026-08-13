@@ -4,6 +4,7 @@
         <a href="{{ route('fee-structures.create') }}" class="btn-primary">+ New Fee Structure</a>
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Category</th><th>Class</th><th>Session</th><th>Term</th><th>Amount</th><th></th></tr></thead>
             <tbody>
@@ -28,6 +29,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $structures->links() }}</div>
 </x-layouts.dashboard>

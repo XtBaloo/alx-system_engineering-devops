@@ -8,6 +8,7 @@
         @endcan
     </div>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Teacher ID</th><th>Name</th><th>Phone</th><th>Qualification</th><th>Status</th><th></th></tr></thead>
             <tbody>
@@ -28,6 +29,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $teachers->links() }}</div>
 </x-layouts.dashboard>

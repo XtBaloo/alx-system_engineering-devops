@@ -12,6 +12,7 @@
             </dl>
         </x-card>
         <x-card title="Children" class="lg:col-span-2">
+            <div class="overflow-x-auto">
             <table class="table-base">
                 <thead><tr><th>Name</th><th>Admission No.</th><th>Class</th><th>Relationship</th></tr></thead>
                 <tbody>
@@ -27,6 +28,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </x-card>
     </div>
 </x-layouts.dashboard>

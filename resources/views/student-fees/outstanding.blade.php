@@ -16,6 +16,7 @@
         </form>
     </x-card>
     <x-card>
+        <div class="overflow-x-auto">
         <table class="table-base">
             <thead><tr><th>Student</th><th>Class</th><th>Category</th><th>Term</th><th>Due</th><th>Paid</th><th>Balance</th><th></th></tr></thead>
             <tbody>
@@ -35,6 +36,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </x-card>
     <div class="mt-4">{{ $fees->links() }}</div>
 </x-layouts.dashboard>

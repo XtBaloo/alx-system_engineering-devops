@@ -63,6 +63,7 @@
                 <button type="submit" formaction="{{ route('results.submit-batch') }}" class="btn-secondary text-sm">Submit Selected</button>
                 <button type="submit" formaction="{{ route('results.publish-batch') }}" class="btn-primary text-sm">Publish Selected</button>
             </div>
+            <div class="overflow-x-auto">
             <table class="table-base">
                 <thead>
                     <tr>
@@ -107,6 +108,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </form>
     </x-card>
     <div class="mt-4">{{ $results->links() }}</div>
