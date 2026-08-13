@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AssessmentType;
 use App\Models\SchoolSetting;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AssessmentTypeController extends Controller
 {
@@ -36,7 +37,7 @@ class AssessmentTypeController extends Controller
 
     public function update(Request $request, AssessmentType $assessmentType)
     {
-        $data = $this->validated($request);
+        $data = $this->validated($request, $assessmentType);
         $assessmentType->update($data);
 
         return redirect()->route('assessment-types.index')->with('success', 'Assessment component updated.');
@@ -53,11 +54,11 @@ class AssessmentTypeController extends Controller
         return back()->with('success', 'Assessment component removed.');
     }
 
-    protected function validated(Request $request): array
+    protected function validated(Request $request, ?AssessmentType $assessmentType = null): array
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:20'],
+            'code' => ['required', 'string', 'max:20', Rule::unique('assessment_types', 'code')->ignore($assessmentType?->id)],
             'max_score' => ['required', 'integer', 'min:1', 'max:100'],
             'order' => ['required', 'integer', 'min:0'],
         ]);

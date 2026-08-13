@@ -50,15 +50,21 @@
                                         <td>
                                             <input type="number" step="0.01" min="0" max="{{ $type->max_score }}"
                                                 name="assessments[{{ $s->id }}][{{ $type->id }}]"
-                                                value="{{ optional($existingAssessments->get($s->id)?->get($type->id))->first()?->score }}"
-                                                class="form-input w-20">
+                                                value="{{ old('assessments.'.$s->id.'.'.$type->id, optional($existingAssessments->get($s->id)?->get($type->id))->first()?->score) }}"
+                                                class="form-input w-20 @error('assessments.'.$s->id.'.'.$type->id) border-red-500 focus:border-red-500 focus:ring-red-500 @enderror">
+                                            @error('assessments.'.$s->id.'.'.$type->id)
+                                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                            @enderror
                                         </td>
                                     @endforeach
                                     <td>
                                         <input type="number" step="0.01" min="0" max="{{ \App\Models\SchoolSetting::current()->examination_max_score }}"
                                             name="examinations[{{ $s->id }}]"
-                                            value="{{ $existingExams->get($s->id)?->score }}"
-                                            class="form-input w-24">
+                                            value="{{ old('examinations.'.$s->id, $existingExams->get($s->id)?->score) }}"
+                                            class="form-input w-24 @error('examinations.'.$s->id) border-red-500 focus:border-red-500 focus:ring-red-500 @enderror">
+                                        @error('examinations.'.$s->id)
+                                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                        @enderror
                                     </td>
                                 </tr>
                             @empty

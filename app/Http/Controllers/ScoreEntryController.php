@@ -72,16 +72,33 @@ class ScoreEntryController extends Controller
 
     public function store(Request $request, ResultService $resultService)
     {
-        $data = $request->validate([
+        $settings = SchoolSetting::current();
+        $examMaxScore = $settings->examination_max_score;
+        $assessmentTypes = AssessmentType::all();
+
+        $rules = [
             'class_arm_id' => ['required', 'exists:class_arms,id'],
             'subject_id' => ['required', 'exists:subjects,id'],
             'assessments' => ['array'],
             'examinations' => ['array'],
-        ]);
+            'examinations.*' => ['nullable', 'numeric', 'min:0', 'max:'.$examMaxScore],
+        ];
+
+        $messages = [
+            'examinations.*.max' => "The exam score cannot exceed {$examMaxScore}.",
+            'examinations.*.numeric' => 'The exam score must be a number.',
+        ];
+
+        foreach ($assessmentTypes as $type) {
+            $rules['assessments.*.'.$type->id] = ['nullable', 'numeric', 'min:0', 'max:'.$type->max_score];
+            $messages['assessments.*.'.$type->id.'.max'] = "The {$type->name} score cannot exceed {$type->max_score}.";
+            $messages['assessments.*.'.$type->id.'.numeric'] = "The {$type->name} score must be a number.";
+        }
+
+        $data = $request->validate($rules, $messages);
 
         $user = $request->user();
         $classArm = ClassArm::findOrFail($data['class_arm_id']);
-        $settings = SchoolSetting::current();
         $session = $settings->currentAcademicSession;
         $term = $settings->currentTerm;
 

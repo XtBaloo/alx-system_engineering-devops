@@ -41,6 +41,11 @@ class SchoolSetting extends Model
         }
 
         $settings = static::firstOrCreate(['id' => 1], ['school_name' => 'Prime Foundation Academy']);
+
+        if ($settings->wasRecentlyCreated) {
+            $settings->refresh();
+        }
+
         app()->instance(self::CONTAINER_KEY, $settings);
 
         return $settings;
