@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AcademicSession;
 use App\Models\Announcement;
 use App\Models\Attendance;
 use App\Models\Payment;

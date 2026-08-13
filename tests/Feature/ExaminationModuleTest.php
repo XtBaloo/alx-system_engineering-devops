@@ -6,7 +6,6 @@ use App\Models\AcademicSession;
 use App\Models\AssessmentScore;
 use App\Models\AssessmentType;
 use App\Models\ClassArm;
-use App\Models\ExaminationScore;
 use App\Models\Result;
 use App\Models\SchoolSetting;
 use App\Models\Student;

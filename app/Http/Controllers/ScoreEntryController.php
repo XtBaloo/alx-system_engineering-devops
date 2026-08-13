@@ -8,7 +8,6 @@ use App\Models\ClassArm;
 use App\Models\ExaminationScore;
 use App\Models\SchoolSetting;
 use App\Models\Student;
-use App\Models\Subject;
 use App\Models\TeacherAssignment;
 use App\Services\ResultService;
 use Illuminate\Http\Request;

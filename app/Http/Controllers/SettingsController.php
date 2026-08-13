@@ -6,7 +6,6 @@ use App\Models\AcademicSession;
 use App\Models\SchoolSetting;
 use App\Models\Term;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {

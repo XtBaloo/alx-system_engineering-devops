@@ -7,7 +7,6 @@ use App\Models\ClassArm;
 use App\Models\FeeCategory;
 use App\Models\FeeStructure;
 use App\Models\Payment;
-use App\Models\SchoolClass;
 use App\Models\Student;
 use App\Models\StudentFee;
 use App\Models\Term;

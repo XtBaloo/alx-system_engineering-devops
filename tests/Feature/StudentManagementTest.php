@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\AcademicSession;
 use App\Models\ClassArm;
-use App\Models\SchoolClass;
 use App\Models\Student;
 use App\Models\User;
 use Database\Seeders\RolePermissionSeeder;
