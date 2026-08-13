@@ -6,22 +6,24 @@ use App\Models\AcademicSession;
 use App\Models\Announcement;
 use App\Models\Attendance;
 use App\Models\Payment;
+use App\Models\Result;
 use App\Models\SchoolSetting;
 use App\Models\Student;
 use App\Models\StudentFee;
 use App\Models\Teacher;
 use App\Models\TeacherAssignment;
+use App\Services\ChartDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, ChartDataService $charts)
     {
         $user = $request->user();
 
         if ($user->hasAnyRole(['super-admin', 'administrator'])) {
-            return $this->adminDashboard();
+            return $this->adminDashboard($charts);
         }
 
         if ($user->hasRole('teacher')) {
@@ -39,7 +41,7 @@ class DashboardController extends Controller
         abort(403, 'No dashboard is configured for your account.');
     }
 
-    protected function adminDashboard()
+    protected function adminDashboard(ChartDataService $charts)
     {
         $settings = SchoolSetting::current();
         $session = $settings->currentAcademicSession;
@@ -65,17 +67,16 @@ class DashboardController extends Controller
         $recentPayments = Payment::with('studentFee.student')->latest()->take(5)->get();
         $recentAnnouncements = Announcement::published()->latest('published_at')->take(5)->get();
 
-        $attendanceTrend = $term
-            ? Attendance::where('term_id', $term->id)
-                ->selectRaw('date, status, count(*) as total')
-                ->where('date', '>=', $today->copy()->subDays(13))
-                ->groupBy('date', 'status')
-                ->orderBy('date')
-                ->get()
-                ->groupBy('date')
-            : collect();
+        $attendanceTrendChart = $charts->attendanceTrend($term);
+        $classDistributionChart = $charts->studentsByClass();
+        $gradeDistributionChart = $charts->gradeDistribution(
+            Result::published()->when($term, fn ($q) => $q->where('term_id', $term->id))
+        );
 
-        return view('dashboards.admin', compact('settings', 'session', 'term', 'stats', 'recentStudents', 'recentPayments', 'recentAnnouncements', 'attendanceTrend'));
+        return view('dashboards.admin', compact(
+            'settings', 'session', 'term', 'stats', 'recentStudents', 'recentPayments', 'recentAnnouncements',
+            'attendanceTrendChart', 'classDistributionChart', 'gradeDistributionChart'
+        ));
     }
 
     protected function teacherDashboard($user)

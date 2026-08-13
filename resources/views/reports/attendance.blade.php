@@ -18,6 +18,11 @@
             <button type="submit" class="btn-secondary">Filter</button>
         </form>
     </x-card>
+
+    <x-card title="Status Breakdown" class="mb-6 max-w-md print:hidden">
+        <x-chart type="doughnut" :labels="$statusChart['labels']" :datasets="$statusChart['datasets']" :height="220" />
+    </x-card>
+
     <x-card>
         <table class="table-base">
             <thead><tr><th>Student</th><th>Present</th><th>Absent</th><th>Late</th><th>Excused</th><th>Total Days</th><th>%</th></tr></thead>

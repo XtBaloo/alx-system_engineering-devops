@@ -8,6 +8,10 @@
         <x-stat-card label="Outstanding" :value="'₦'.number_format($totalOutstanding, 2)" color="red" />
     </div>
 
+    <x-card title="Due vs. Collected by Category" class="mb-6 print:hidden">
+        <x-chart type="bar" :labels="$categoryChart['labels']" :datasets="$categoryChart['datasets']" :height="240" />
+    </x-card>
+
     <x-card title="Breakdown by Category" class="mb-6">
         <table class="table-base">
             <thead><tr><th>Category</th><th>Due</th><th>Collected</th><th>Outstanding</th></tr></thead>

@@ -24,6 +24,11 @@
             </div>
         </form>
     </x-card>
+
+    <x-card title="Grade Distribution" class="mb-6 max-w-2xl print:hidden">
+        <x-chart type="bar" :labels="$gradeChart['labels']" :datasets="$gradeChart['datasets']" :height="220" />
+    </x-card>
+
     <x-card>
         <table class="table-base">
             <thead><tr><th>Student</th><th>Class</th><th>Subject</th><th>Total</th><th>Grade</th><th>Position</th></tr></thead>

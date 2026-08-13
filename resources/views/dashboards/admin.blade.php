@@ -24,6 +24,28 @@
     </div>
 
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <x-card title="Attendance Trend (Last 14 Days)" class="lg:col-span-2">
+            <x-chart type="line" :labels="$attendanceTrendChart['labels']" :datasets="$attendanceTrendChart['datasets']" />
+        </x-card>
+        <x-card title="Fees: Collected vs Outstanding">
+            <x-chart
+                type="doughnut"
+                :labels="['Collected', 'Outstanding']"
+                :datasets="[['data' => [(float) $stats['fees_collected'], (float) $stats['fees_outstanding']], 'backgroundColor' => ['#059669', '#dc2626']]]"
+            />
+        </x-card>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <x-card title="Students by Class">
+            <x-chart type="bar" :labels="$classDistributionChart['labels']" :datasets="$classDistributionChart['datasets']" />
+        </x-card>
+        <x-card title="Grade Distribution (Published Results)">
+            <x-chart type="bar" :labels="$gradeDistributionChart['labels']" :datasets="$gradeDistributionChart['datasets']" />
+        </x-card>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <x-card title="Recent Students" class="lg:col-span-1">
             @forelse($recentStudents as $s)
                 <div class="flex items-center justify-between border-b border-gray-50 py-2 text-sm last:border-0">
