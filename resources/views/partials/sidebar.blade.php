@@ -17,12 +17,13 @@
         <x-nav-item :href="route('dashboard')" :active="request()->routeIs('dashboard')" icon="home">Dashboard</x-nav-item>
 
         @canany(['manage-academic-structure'])
-        <x-nav-group label="Academic" :active="request()->routeIs('academic-sessions.*','terms.*','classes.*','class-arms.*','subjects.*','teacher-assignments.*')">
+        <x-nav-group label="Academic" :active="request()->routeIs('academic-sessions.*','terms.*','classes.*','class-arms.*','subjects.*','teacher-assignments.*','timetable.index','timetable.create','timetable.edit')">
             <x-nav-item :href="route('academic-sessions.index')" :active="request()->routeIs('academic-sessions.*')">Sessions</x-nav-item>
             <x-nav-item :href="route('terms.index')" :active="request()->routeIs('terms.*')">Terms</x-nav-item>
             <x-nav-item :href="route('classes.index')" :active="request()->routeIs('classes.*')">Classes</x-nav-item>
             <x-nav-item :href="route('subjects.index')" :active="request()->routeIs('subjects.*')">Subjects</x-nav-item>
             <x-nav-item :href="route('teacher-assignments.index')" :active="request()->routeIs('teacher-assignments.*')">Teacher Assignments</x-nav-item>
+            <x-nav-item :href="route('timetable.index')" :active="request()->routeIs('timetable.index','timetable.create','timetable.edit')">Timetable</x-nav-item>
         </x-nav-group>
         @endcanany
 
@@ -81,6 +82,10 @@
 
         @can('view-reports')
         <x-nav-item :href="route('reports.index')" :active="request()->routeIs('reports.index')" icon="chart">Reports</x-nav-item>
+        @endcan
+
+        @can('view-timetable')
+        <x-nav-item :href="route('timetable.mine')" :active="request()->routeIs('timetable.mine')" icon="calendar">My Timetable</x-nav-item>
         @endcan
 
         @if(auth()->user()->hasAnyRole(['student', 'parent']))

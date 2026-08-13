@@ -43,6 +43,11 @@ class ClassArm extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function timetableEntries(): HasMany
+    {
+        return $this->hasMany(TimetableEntry::class);
+    }
+
     public function getFullNameAttribute(): string
     {
         return trim("{$this->schoolClass?->name} {$this->name}");

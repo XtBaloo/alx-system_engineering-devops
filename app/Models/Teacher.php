@@ -42,6 +42,11 @@ class Teacher extends Model
         return $this->hasMany(TeacherAssignment::class);
     }
 
+    public function timetableEntries(): HasMany
+    {
+        return $this->hasMany(TimetableEntry::class);
+    }
+
     public function assignedSubjects()
     {
         return Subject::whereIn('id', $this->teacherAssignments()->pluck('subject_id'));

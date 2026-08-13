@@ -27,6 +27,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TermController;
+use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +63,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('class-arms', ClassArmController::class)->except(['show']);
         Route::resource('subjects', SubjectController::class)->except(['show']);
         Route::resource('teacher-assignments', TeacherAssignmentController::class)->only(['index', 'create', 'store', 'destroy']);
+        Route::resource('timetable', TimetableController::class)->except(['show']);
+    });
+
+    Route::middleware('permission:view-timetable')->group(function () {
+        Route::get('my/timetable', [TimetableController::class, 'mine'])->name('timetable.mine');
     });
 
     // Teachers

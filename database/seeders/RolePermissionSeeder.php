@@ -31,6 +31,7 @@ class RolePermissionSeeder extends Seeder
         'view-reports',
         'view-audit-logs',
         'view-own-data',
+        'view-timetable',
     ];
 
     public function run(): void
@@ -74,6 +75,7 @@ class RolePermissionSeeder extends Seeder
             'review-results',
             'view-results',
             'manage-announcements',
+            'view-timetable',
         ]);
 
         $student = Role::firstOrCreate(['name' => 'student', 'guard_name' => 'web']);

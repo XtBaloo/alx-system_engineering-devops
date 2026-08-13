@@ -37,6 +37,11 @@ class Subject extends Model
         return $this->hasMany(TeacherAssignment::class);
     }
 
+    public function timetableEntries(): HasMany
+    {
+        return $this->hasMany(TimetableEntry::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 'active');
