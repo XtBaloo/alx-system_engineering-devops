@@ -35,3 +35,18 @@ document.addEventListener('submit', (event) => {
     submitButton.dataset.originalHtml = submitButton.innerHTML;
     submitButton.innerHTML = `${spinnerSvg}<span>${submitButton.textContent.trim()}</span>`;
 });
+
+// Full-page navigation indicator: covers cases the submit-button spinner above
+// can't reach, such as auto-submit filter selects (onchange="this.form.submit()",
+// which does not fire a native 'submit' event) and ordinary link clicks. Delayed
+// so fast navigations never flash it — it only appears once a page load is
+// actually slow enough for a user to notice.
+let navigationIndicatorTimer = null;
+
+const showNavigationIndicator = () => {
+    navigationIndicatorTimer = window.setTimeout(() => {
+        document.documentElement.classList.add('is-navigating');
+    }, 200);
+};
+
+window.addEventListener('beforeunload', showNavigationIndicator);

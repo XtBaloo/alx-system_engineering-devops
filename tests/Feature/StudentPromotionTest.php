@@ -68,6 +68,41 @@ class StudentPromotionTest extends TestCase
         $this->assertDatabaseHas('enrollments', ['id' => $originalEnrollment->id, 'class_arm_id' => $jss1a->id]);
     }
 
+    public function test_promoting_with_no_students_selected_is_rejected_with_a_field_error(): void
+    {
+        $admin = User::factory()->create();
+        $admin->assignRole('super-admin');
+
+        AcademicSession::factory()->active()->create();
+        $targetArm = ClassArm::factory()->create();
+
+        $response = $this->actingAs($admin)->post('/students/promotions', [
+            'target_class_arm_id' => $targetArm->id,
+            'student_ids' => [],
+        ]);
+
+        $response->assertSessionHasErrors('student_ids');
+    }
+
+    public function test_promoting_without_a_target_class_is_rejected_and_shown_inline_on_the_form(): void
+    {
+        $admin = User::factory()->create();
+        $admin->assignRole('super-admin');
+
+        AcademicSession::factory()->active()->create();
+        $sourceArm = ClassArm::factory()->create();
+        $student = Student::factory()->create(['current_class_arm_id' => $sourceArm->id]);
+
+        $this->actingAs($admin)->post('/students/promotions', [
+            'student_ids' => [$student->id],
+        ]);
+
+        $response = $this->actingAs($admin)->get('/students/promotions?source_class_arm_id='.$sourceArm->id);
+
+        $response->assertOk();
+        $response->assertSee('The target class arm id field is required.');
+    }
+
     public function test_a_promotion_can_be_reversed_restoring_the_previous_class(): void
     {
         $admin = User::factory()->create();

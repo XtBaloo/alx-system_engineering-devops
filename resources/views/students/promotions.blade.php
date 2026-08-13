@@ -22,10 +22,13 @@
                 <select name="target_class_arm_id" class="form-select w-64" required>
                     <option value="">-- Select target class --</option>
                     @foreach($classArms as $arm)
-                        <option value="{{ $arm->id }}">{{ $arm->full_name }}</option>
+                        <option value="{{ $arm->id }}" @selected(old('target_class_arm_id') == $arm->id)>{{ $arm->full_name }}</option>
                     @endforeach
                 </select>
+                <x-input-error :messages="$errors->get('target_class_arm_id')" class="mt-1" />
             </div>
+
+            <x-input-error :messages="$errors->get('student_ids')" class="mb-2" />
 
             <table class="table-base">
                 <thead>

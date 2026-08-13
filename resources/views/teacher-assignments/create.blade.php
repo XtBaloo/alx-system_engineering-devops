@@ -10,6 +10,7 @@
                         <option value="{{ $t->id }}" @selected(old('teacher_id') == $t->id)>{{ $t->full_name }} ({{ $t->teacher_id }})</option>
                     @endforeach
                 </select>
+                <x-input-error :messages="$errors->get('teacher_id')" class="mt-1" />
             </div>
             <div>
                 <label class="form-label">Academic Session</label>
@@ -19,6 +20,7 @@
                         <option value="{{ $s->id }}" @selected(old('academic_session_id', $currentSessionId) == $s->id)>{{ $s->name }}</option>
                     @endforeach
                 </select>
+                <x-input-error :messages="$errors->get('academic_session_id')" class="mt-1" />
             </div>
             <div>
                 <label class="form-label">Class Arm</label>
@@ -28,6 +30,7 @@
                         <option value="{{ $arm->id }}" @selected(old('class_arm_id') == $arm->id)>{{ $arm->full_name }}</option>
                     @endforeach
                 </select>
+                <x-input-error :messages="$errors->get('class_arm_id')" class="mt-1" />
             </div>
             <div>
                 <label class="form-label">Subject</label>
@@ -37,6 +40,7 @@
                         <option value="{{ $subj->id }}" @selected(old('subject_id') == $subj->id)>{{ $subj->name }}</option>
                     @endforeach
                 </select>
+                <x-input-error :messages="$errors->get('subject_id')" class="mt-1" />
             </div>
             <div class="sm:col-span-2 flex justify-end gap-3">
                 <a href="{{ route('teacher-assignments.index') }}" class="btn-secondary">Cancel</a>

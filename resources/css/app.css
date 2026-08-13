@@ -60,3 +60,35 @@
         @apply card p-5 flex items-center justify-between;
     }
 }
+
+/* Page-navigation loading indicator, toggled by app.js on slow full-page loads
+   (auto-submit filters, link clicks). See app.js for the delayed trigger. */
+html.is-navigating {
+    cursor: progress;
+}
+html.is-navigating::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #047857, #10b981, #047857);
+    background-size: 200% 100%;
+    animation: nav-progress 1s linear infinite;
+    z-index: 9999;
+}
+@keyframes nav-progress {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Printable pages (report cards, receipts, reports) already mark their own
+   filters/action buttons with Tailwind's print:hidden, but the dashboard
+   shell's sidebar and sticky header were never excluded from print output. */
+@media print {
+    aside,
+    header {
+        display: none !important;
+    }
+}

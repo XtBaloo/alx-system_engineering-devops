@@ -81,6 +81,43 @@ class AttendanceTest extends TestCase
         $this->assertEquals('absent', Attendance::where('student_id', $student->id)->whereDate('date', $date)->first()->status);
     }
 
+    public function test_an_invalid_status_value_is_rejected_with_a_field_error(): void
+    {
+        $session = AcademicSession::factory()->active()->create();
+        $term = Term::factory()->active()->create(['academic_session_id' => $session->id]);
+        $classArm = ClassArm::factory()->create();
+        $teacherUser = $this->makeTeacherUser($classArm);
+        $student = Student::factory()->create(['current_class_arm_id' => $classArm->id]);
+
+        $response = $this->actingAs($teacherUser)->post('/attendance/take', [
+            'class_arm_id' => $classArm->id,
+            'date' => now()->format('Y-m-d'),
+            'statuses' => [$student->id => 'on-holiday'],
+        ]);
+
+        $response->assertSessionHasErrors('statuses.'.$student->id);
+        $this->assertDatabaseCount('attendance', 0);
+    }
+
+    public function test_missing_class_arm_is_rejected_and_shown_inline_on_the_form(): void
+    {
+        $session = AcademicSession::factory()->active()->create();
+        $term = Term::factory()->active()->create(['academic_session_id' => $session->id]);
+
+        $admin = User::factory()->create();
+        $admin->assignRole('administrator');
+
+        $this->actingAs($admin)->post('/attendance/take', [
+            'date' => now()->format('Y-m-d'),
+            'statuses' => [],
+        ]);
+
+        $response = $this->actingAs($admin)->get('/attendance/take');
+
+        $response->assertOk();
+        $response->assertSee('The class arm id field is required.');
+    }
+
     public function test_a_teacher_not_assigned_to_the_class_cannot_take_its_attendance(): void
     {
         $session = AcademicSession::factory()->active()->create();
